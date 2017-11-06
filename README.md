@@ -18,7 +18,8 @@ rebar.config
 How format a string:
 
 ```erlang
-sf:format(<<"Hello {{name}}!">>, [{name, <<"worlds">>}]).
+sf:format(<<"Hello {{name}}! My pid: {{pid}}">>,
+          [{name, <<"worlds">>}, {pid, self()}]).
 ```
 
 Convert to string:
@@ -29,6 +30,7 @@ Convert to string:
 "test" = sf:to_string(<<"test">>).
 "123" = sf:to_string(123).
 "12.3" = sf:to_string(12.3).
+"<0.60.0>" = sf:to_string(self()).
 
 Build
 -----
