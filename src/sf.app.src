@@ -1,0 +1,15 @@
+{application, sf,
+ [{description, "An OTP library to format a string"},
+  {vsn, "0.1.0"},
+  {registered, []},
+  {applications,
+   [kernel,
+    stdlib
+   ]},
+  {env,[]},
+  {modules, []},
+
+  {maintainers, []},
+  {licenses, ["GPL2"]},
+  {links, []}
+ ]}.
