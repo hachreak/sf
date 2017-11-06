@@ -18,9 +18,17 @@ rebar.config
 How format a string:
 
 ```erlang
-sf:format(<<"Hello {{name}}!">>, [{<<"name">>, <<"worlds">>}]).
+sf:format(<<"Hello {{name}}!">>, [{name, <<"worlds">>}]).
 ```
 
+Convert to string:
+
+```erlang
+"test" = sf:to_string(test).
+"test" = sf:to_string("test").
+"test" = sf:to_string(<<"test">>).
+"123" = sf:to_string(123).
+"12.3" = sf:to_string(12.3).
 
 Build
 -----

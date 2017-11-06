@@ -22,7 +22,10 @@
 
 -author('Leonardo Rossi <leonardo.rossi@studenti.unipr.it>').
 
--export([format/2]).
+-export([
+  format/2,
+  to_string/1
+]).
 
 %%%_ * Types -----------------------------------------------------------
 
@@ -37,7 +40,17 @@
 -spec format(binary(), subpairs()) -> binary().
 format(Template, SubPair) ->
   lists:foldl(
-    fun({K, V}, Acc) ->
-        re:replace(Acc, << <<"{{">>/binary, K/binary, <<"}}">>/binary >>, V,
-                   [{return, binary}, global])
+    fun ({K, V}, Acc) ->
+        replace(to_string(Acc), to_string(K), to_string(V))
     end, Template, SubPair).
+
+%% Private functions
+
+replace(String, Key, Value) ->
+  io:format("replace: ~p ~p ~p~n", [String, Key, Value]),
+  re:replace(String, "{{" ++ Key ++ "}}", Value, [{return, binary}, global]).
+
+to_string(Val) when is_number(Val) -> lists:flatten(io_lib:format("~p", [Val]));
+to_string(Val) when is_binary(Val) -> binary_to_list(Val);
+to_string(Val) when is_atom(Val) -> atom_to_list(Val);
+to_string(Val) -> Val.
