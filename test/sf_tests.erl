@@ -20,6 +20,8 @@ string_formatting_test() ->
   String = << <<"hello ">>/binary, Pid/binary, <<"!">>/binary >>,
   String = sf:format("hello {{pid}}!", [{pid, self()}]),
 
+  <<"hello {1,2,3}!">> = sf:format("hello {{name}}!", [{"name", {1,2,3}}]),
+
   ok.
 
 to_string_test() ->
@@ -29,4 +31,7 @@ to_string_test() ->
   "test" = sf:to_string(<<"test">>),
   "123" = sf:to_string(123),
   "12.3" = sf:to_string(12.3),
-  "test" = sf:to_string("test").
+  "test" = sf:to_string("test"),
+  "{1,2,3}" = sf:to_string({1,2,3}),
+
+  ok.

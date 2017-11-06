@@ -47,11 +47,11 @@ format(Template, SubPair) ->
 %% Private functions
 
 replace(String, Key, Value) ->
-  io:format("replace: ~p ~p ~p~n", [String, Key, Value]),
   re:replace(String, "{{" ++ Key ++ "}}", Value, [{return, binary}, global]).
 
 to_string(Val) when is_number(Val) -> lists:flatten(io_lib:format("~p", [Val]));
 to_string(Val) when is_binary(Val) -> binary_to_list(Val);
 to_string(Val) when is_atom(Val) -> atom_to_list(Val);
 to_string(Val) when is_pid(Val) -> pid_to_list(Val);
+to_string(Val) when is_tuple(Val) -> lists:flatten(io_lib:format("~p", [Val]));
 to_string(Val) -> Val.

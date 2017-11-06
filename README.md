@@ -31,6 +31,7 @@ Convert to string:
 "123" = sf:to_string(123).
 "12.3" = sf:to_string(12.3).
 "<0.60.0>" = sf:to_string(self()).
+"{1,2,3}" = sf:to_string({1,2,3}).
 
 Build
 -----
