@@ -24,6 +24,7 @@
 
 -export([
   format/2,
+  format/3,
   to_string/1
 ]).
 
@@ -39,21 +40,32 @@
 
 -spec format(binary(), subpairs()) -> binary().
 format(Template, SubPair) ->
-  lists:foldl(
+  format(Template, SubPair, []).
+
+format(Template, SubPair, Opts) ->
+  Result = lists:foldl(
     fun ({K, V}, Acc) ->
         replace(to_string(Acc), to_string(K), to_string(V))
-    end, Template, SubPair).
+    end, Template, SubPair),
+  opts(Result, Opts).
 
-%% Private functions
-
-replace(String, Key, Value) ->
-  % SValue = io_lib:format("~p", [Value]),
-  re:replace(String, "{{" ++ Key ++ "}}", Value, [{return, binary}, global]).
-
-to_string(Val) when is_map(Val) -> io_lib:format("~p", [Val]);
+to_string(Val) when is_map(Val) -> lists:flatten(io_lib:format("~p", [Val]));
 to_string(Val) when is_number(Val) -> lists:flatten(io_lib:format("~p", [Val]));
 to_string(Val) when is_binary(Val) -> binary_to_list(Val);
 to_string(Val) when is_atom(Val) -> atom_to_list(Val);
 to_string(Val) when is_pid(Val) -> pid_to_list(Val);
 to_string(Val) when is_tuple(Val) -> lists:flatten(io_lib:format("~p", [Val]));
 to_string(Val) -> Val.
+
+%% Private functions
+
+opts(Result, Opts) ->
+  case lists:member(string, Opts) of
+    true -> binary_to_list(Result);
+    false -> Result
+  end.
+
+replace(String, Key, Value) ->
+  % SValue = io_lib:format("~p", [Value]),
+  re:replace(String, "{{" ++ Key ++ "}}", Value, [{return, binary}, global]).
+

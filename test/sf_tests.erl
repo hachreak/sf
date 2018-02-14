@@ -25,6 +25,8 @@ string_formatting_test() ->
   ?assertEqual(<<"B = #{\"Hello\" => <<\"c\">>}">>,
                sf:format("B = {{bind}}", [{bind, #{"Hello" => <<"c">>}}])),
 
+  ?assertEqual("hello 123!", sf:format("hello {{name}}!", [{"name", 123}], [string])),
+
   ok.
 
 to_string_test() ->
@@ -36,5 +38,8 @@ to_string_test() ->
   "12.3" = sf:to_string(12.3),
   "test" = sf:to_string("test"),
   "{1,2,3}" = sf:to_string({1,2,3}),
+  ?assertEqual(
+    "#{\"Hello\" => <<\"c\">>}",
+    sf:to_string(#{"Hello" => <<"c">>})),
 
   ok.
