@@ -47,8 +47,10 @@ format(Template, SubPair) ->
 %% Private functions
 
 replace(String, Key, Value) ->
+  % SValue = io_lib:format("~p", [Value]),
   re:replace(String, "{{" ++ Key ++ "}}", Value, [{return, binary}, global]).
 
+to_string(Val) when is_map(Val) -> io_lib:format("~p", [Val]);
 to_string(Val) when is_number(Val) -> lists:flatten(io_lib:format("~p", [Val]));
 to_string(Val) when is_binary(Val) -> binary_to_list(Val);
 to_string(Val) when is_atom(Val) -> atom_to_list(Val);
