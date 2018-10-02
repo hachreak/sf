@@ -34,11 +34,13 @@
 
 -type key()      :: binary().
 -type value()    :: binary().
--type subpairs() :: list({key(), value()}).
+-type subpairs() :: list({key(), value()}) | map().
 
 %% API
 
 -spec format(binary(), subpairs()) -> binary().
+format(Template, SubPair) when is_map(SubPair) ->
+  format(Template, maps:to_list(SubPair));
 format(Template, SubPair) ->
   format(Template, SubPair, []).
 

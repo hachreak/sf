@@ -18,8 +18,15 @@ rebar.config
 How format a string:
 
 ```erlang
-sf:format(<<"Hello {{name}}! My pid: {{pid}}">>,
-          [{name, <<"worlds">>}, {pid, self()}]).
+<<"Hello worlds! The answer is: 42">> =
+    sf:format(<<"Hello {{name}}! The answer is: {{answer}}">>,
+              [{name, <<"worlds">>}, {answer, 42}]).
+```
+
+```erlang
+<<"Hello worlds! The answer is: 42">> =
+    sf:format(<<"Hello {{name}}! The answer is: {{answer}}">>,
+              #{name => <<"worlds">>, answer => 42}).
 ```
 
 Convert to string:

@@ -10,6 +10,9 @@ string_formatting_test() ->
   <<"hello worlds!">> = sf:format(
           <<"hello {{name}}!">>, [{<<"name">>, <<"worlds">>}]),
 
+  <<"hello worlds!">> = sf:format(
+          <<"hello {{name}}!">>, #{<<"name">> => <<"worlds">>}),
+
   <<"hello string!">> = sf:format("hello {{name}}!", [{"name", "string"}]),
 
   <<"hello 123!">> = sf:format("hello {{name}}!", [{"name", 123}]),
