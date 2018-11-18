@@ -25,6 +25,7 @@
 -export([
   format/2,
   format/3,
+  to_atom/1,
   to_string/1
 ]).
 
@@ -59,13 +60,13 @@ to_string(Val) when is_pid(Val) -> pid_to_list(Val);
 to_string(Val) when is_tuple(Val) -> lists:flatten(io_lib:format("~p", [Val]));
 to_string(Val) -> Val.
 
+to_atom(Val) -> list_to_atom(to_string(Val)).
+
 %% Private functions
 
-opts(Result, Opts) ->
-  case lists:member(string, Opts) of
-    true -> binary_to_list(Result);
-    false -> Result
-  end.
+opts(Result, []) -> Result;
+opts(Result, [string | Opts]) -> opts(to_string(Result), Opts);
+opts(Result, [atom | Opts]) -> opts(to_atom(Result), Opts).
 
 replace(String, Key, Value) ->
   % SValue = io_lib:format("~p", [Value]),

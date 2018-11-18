@@ -15,7 +15,7 @@ rebar.config
 ]}.
 ```
 
-How format a string:
+How to format a binary:
 
 ```erlang
 <<"Hello worlds! The answer is: 42">> =
@@ -23,10 +23,26 @@ How format a string:
               [{name, <<"worlds">>}, {answer, 42}]).
 ```
 
+Or (passing a map):
+
 ```erlang
 <<"Hello worlds! The answer is: 42">> =
     sf:format(<<"Hello {{name}}! The answer is: {{answer}}">>,
               #{name => <<"worlds">>, answer => 42}).
+```
+
+How to format a string:
+
+```erlang
+"Hello worlds!" = sf:format(
+      <<"Hello {{name}}!">>, [{name, <<"worlds">>}], [string]).
+```
+
+How to format a atom:
+
+```erlang
+'Hello worlds!' = sf:format(
+      <<"Hello {{name}}!">>, [{name, <<"worlds">>}], [atom]).
 ```
 
 Convert to string:

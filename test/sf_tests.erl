@@ -31,7 +31,11 @@ string_formatting_test() ->
   ?assertEqual(<<"B = #{\"Hello\" => <<\"c\">>}">>,
                sf:format("B = {{bind}}", [{bind, #{"Hello" => <<"c">>}}])),
 
-  ?assertEqual("hello 123!", sf:format("hello {{name}}!", [{"name", 123}], [string])),
+  ?assertEqual("hello 123!",
+               sf:format("hello {{name}}!", [{"name", 123}], [string])),
+
+  ?assertEqual('hello 123!',
+               sf:format("hello {{name}}!", [{"name", 123}], [atom])),
 
   ok.
 
@@ -47,5 +51,20 @@ to_string_test() ->
   ?assertEqual(
     "#{\"Hello\" => <<\"c\">>}",
     sf:to_string(#{"Hello" => <<"c">>})),
+
+  ok.
+
+to_atom_test() ->
+  Pid = list_to_atom(pid_to_list(self())),
+  Pid = sf:to_atom(self()),
+  'test' = sf:to_atom(test),
+  'test' = sf:to_atom(<<"test">>),
+  '123' = sf:to_atom(123),
+  '12.3' = sf:to_atom(12.3),
+  'test' = sf:to_atom("test"),
+  '{1,2,3}' = sf:to_atom({1,2,3}),
+  ?assertEqual(
+    '#{\"Hello\" => <<\"c\">>}',
+    sf:to_atom(#{"Hello" => <<"c">>})),
 
   ok.
