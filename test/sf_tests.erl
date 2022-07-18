@@ -24,6 +24,8 @@ string_formatting_test() ->
 
   <<"hello Юникод!">> = sf:format("hello {{name}}!", [{"name", "Юникод"}]),
 
+  <<"hello test!">> = sf:format("hello {{^a}}!", [{"^a", "test"}]),
+
   Pid = list_to_binary(pid_to_list(self())),
   String = << <<"hello ">>/binary, Pid/binary, <<"!">>/binary >>,
   String = sf:format("hello {{pid}}!", [{pid, self()}]),
